@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.SavedStateViewModelFactory;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.jetpackdemo.databinding.ActivityMainBinding;
@@ -36,22 +37,14 @@ public class MainActivity extends AppCompatActivity {
 
         viewDataBinding = DataBindingUtil.setContentView(this,R.layout.activity_main);
 
-        myViewModel = new ViewModelProvider(this).get(MyViewModel.class);
+        myViewModel = new ViewModelProvider(this,new SavedStateViewModelFactory(getApplication(),this)).get(MyViewModel.class);
 
 //        设置数据绑定关系  生命周期的监听
         viewDataBinding.setData(myViewModel);
         viewDataBinding.setLifecycleOwner(this);
 
-        if (savedInstanceState!=null){
-            myViewModel.setLiveData(savedInstanceState.getInt("value"));
-        }
 
 
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        outState.putInt("value", (Integer) myViewModel.getLiveData().getValue());
-    }
 }

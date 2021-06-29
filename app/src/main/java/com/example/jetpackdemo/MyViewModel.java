@@ -1,32 +1,31 @@
 package com.example.jetpackdemo;
 
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.ViewModel;
 
 public class MyViewModel extends ViewModel {
 
-    MutableLiveData<Integer> liveData;
 
-    public MutableLiveData getLiveData() {
-        if (liveData==null){
+    private SavedStateHandle savedStateHandle;
 
-            liveData  = new MutableLiveData<>();
-            liveData.setValue(0);
-        }
+    public MyViewModel(SavedStateHandle savedStateHandle) {
 
-        return liveData;
+        this.savedStateHandle = savedStateHandle;
+
+
     }
 
-    public void setLiveData(int value) {
-        if (liveData==null){
+    public MutableLiveData<Integer> getValue() {
+        if (!savedStateHandle.contains("value"))
+            savedStateHandle.set("value",0);
 
-            liveData  = new MutableLiveData<>();
-            liveData.setValue(0);
-        }
-        else{
-            liveData.setValue(liveData.getValue()+value);
+        return savedStateHandle.getLiveData("value");
+    }
 
-        }
+    public void setValue(int value) {
 
+        MutableLiveData<Integer> value1 = getValue();
+        savedStateHandle.set("value", value1.getValue() + value);
     }
 }

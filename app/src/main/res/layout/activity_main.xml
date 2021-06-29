@@ -19,7 +19,7 @@
             android:id="@+id/result"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{String.valueOf(data.liveData)}"
+            android:text="@{String.valueOf(data.getValue())}"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -46,7 +46,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_5g_24"
-            android:onClick="@{()-> data.setLiveData(1)}"
+            android:onClick="@{()-> data.setValue(1)}"
             android:contentDescription="TODO" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
