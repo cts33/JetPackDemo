@@ -8,8 +8,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.example.jetpackdemo.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,38 +25,23 @@ public class MainActivity extends AppCompatActivity {
     private TextView mResult;
 
     private static final String TAG = "MainActivity";
+    //一定对照当前界面名称
+    private ActivityMainBinding viewDataBinding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        viewDataBinding = DataBindingUtil.setContentView(this,R.layout.activity_main);
 
         myViewModel = new ViewModelProvider(this).get(MyViewModel.class);
 
-        myViewModel.getLiveData().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer o) {
-                mResult.setText(o+"");
-            }
-        });
+//        设置数据绑定关系  生命周期的监听
+        viewDataBinding.setData(myViewModel);
+        viewDataBinding.setLifecycleOwner(this);
 
-        initView();
+
     }
 
-    private void initView() {
-        mZan = (ImageButton) findViewById(R.id.zan);
-        mCai = (Button) findViewById(R.id.cai);
-        mResult = (TextView) findViewById(R.id.result);
-        Log.d(TAG, "initView: ");
-        //默认设置
-        mResult.setText( myViewModel.getLiveData().getValue()+"");
-        mZan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myViewModel.setLiveData(1);
 
-
-            }
-        });
-
-    }
 }
