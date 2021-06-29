@@ -1,0 +1,2 @@
+1.后天杀死进程保存数据
+onSaveInstanceState 保存数据

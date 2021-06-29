@@ -1,12 +1,14 @@
 package com.example.jetpackdemo;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
@@ -40,8 +42,16 @@ public class MainActivity extends AppCompatActivity {
         viewDataBinding.setData(myViewModel);
         viewDataBinding.setLifecycleOwner(this);
 
+        if (savedInstanceState!=null){
+            myViewModel.setLiveData(savedInstanceState.getInt("value"));
+        }
+
 
     }
 
-
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putInt("value", (Integer) myViewModel.getLiveData().getValue());
+    }
 }
